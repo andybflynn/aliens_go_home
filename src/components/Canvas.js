@@ -38,8 +38,12 @@ const Canvas = ({rotationAngle, trackMouse, startGame, gameState}) => {
 
       { gameState.started &&
         <g>
-          <FlyingObject position={{x: -150, y: -300}}/>
-          <FlyingObject position={{x: 150, y: -300}}/>
+          {gameState.flyingObjects.map(flyingObject => (
+            <FlyingObject
+              key={flyingObject.id}
+              position={flyingObject.position}
+            />
+          ))}
         </g>
       }
       <CannonBall position={{x: 0, y: -100}}/>

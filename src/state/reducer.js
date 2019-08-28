@@ -7,6 +7,8 @@ const initialGameState = {
   kills: 0,
   score: 0,
   lives: 3,
+  flyingObjects: [],
+  lastObjectCreatedAt: new Date(),
 }
 
 export const defaultState = {
