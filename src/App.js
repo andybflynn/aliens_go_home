@@ -2,7 +2,7 @@ import * as React from 'react';
 import AppContext from './state/context';
 import reducer, {defaultState} from './state/reducer';
 import Canvas from './components/Canvas';
-import {moveObjects, startGame} from './state/actions';
+import {moveObjects, startGame, shoot} from './state/actions';
 import {getCanvasPosition} from './utils/formulas';
 
 export default function App() {
@@ -30,9 +30,13 @@ export default function App() {
     dispatch(startGame());
   }
 
+  const shootCannon = () => {
+    dispatch(shoot(canvasMousePosition.current));
+  }
+
   return (
     <AppContext.Provider value={dispatch}>
-      <Canvas rotationAngle={state.rotationAngle} trackMouse={trackMouse} startGame={startTheGame} gameState={state.gameState}></Canvas>
+      <Canvas rotationAngle={state.rotationAngle} trackMouse={trackMouse} startGame={startTheGame} gameState={state.gameState} shoot={shootCannon}></Canvas>
     </AppContext.Provider>
   )
 }

@@ -10,14 +10,25 @@ import Heart from './Heart';
 import StartGame from './StartGame';
 import Title from './Title';
 
-const Canvas = ({rotationAngle, trackMouse, startGame, gameState}) => {
+const Canvas = ({rotationAngle, trackMouse, startGame, gameState, shoot}) => {
   const gameHeight = 1200;
   const viewBox = [window.innerWidth / -2, 100 - gameHeight, window.innerWidth, gameHeight];
+
+  const lives = [];
+  for (let i = 0; i < gameState.lives; i++) {
+    const heartPosition = {
+      x: -180 - (i * 70),
+      y: 35
+    };
+    lives.push(<Heart key={i} position={heartPosition}/>);
+  }
+
   return (
     <svg
       id="aliens-go-home-canvas"
       preserveAspectRatio="xMaxYMax none"
       onMouseMove={trackMouse}
+      onClick={shoot}
       viewBox={viewBox}
     >
       <defs>
@@ -27,6 +38,12 @@ const Canvas = ({rotationAngle, trackMouse, startGame, gameState}) => {
       </defs>
       <Sky></Sky>
       <Ground></Ground>
+      {gameState.cannonBalls.map(cannonBall => (
+        <CannonBall
+          key={cannonBall.id}
+          position={cannonBall.position}
+        />
+      ))}
       <CannonPipe rotation={rotationAngle}></CannonPipe>
       <CannonBase></CannonBase>
       { !gameState.started &&
@@ -46,9 +63,8 @@ const Canvas = ({rotationAngle, trackMouse, startGame, gameState}) => {
           ))}
         </g>
       }
-      <CannonBall position={{x: 0, y: -100}}/>
-      <CurrentScore score={35}></CurrentScore>
-      <Heart position={{x: -300, y: 35}} />
+      <CurrentScore score={gameState.kills}></CurrentScore>
+      {lives}
     </svg>
   );
 };
